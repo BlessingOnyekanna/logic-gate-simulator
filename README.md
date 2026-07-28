@@ -1,8 +1,11 @@
-# Logic Gate & Adder Simulator
+# Logic Gate, Adder & ALU Simulator
 
 A small Python project simulating basic digital logic gates (AND, OR, NOT,
-NAND, NOR, XOR, XNOR) and combining them into half adder and full adder
-circuits capable of adding binary numbers of any length.
+NAND, NOR, XOR, XNOR), combining them into half adder and full adder
+circuits for binary addition, a two's complement subtractor, and a
+minimal ALU that ties addition, subtraction, and bitwise logic together
+under a single operation-code interface - a simplified model of how a
+real CPU's arithmetic logic unit works.
 
 ## Why I built this
 
@@ -18,9 +21,11 @@ blocks used inside real ALUs and processors.
 
 ```
 logic-gate-simulator/
-├── gates.py    # Basic gate implementations (AND, OR, NOT, NAND, NOR, XOR, XNOR)
-├── adder.py    # Half adder, full adder, and multi-bit binary addition
-├── main.py     # Command-line interface tying everything together
+├── gates.py       # Basic gate implementations (AND, OR, NOT, NAND, NOR, XOR, XNOR)
+├── adder.py       # Half adder, full adder, and multi-bit binary addition
+├── subtractor.py  # Two's complement subtraction, built on the adder
+├── alu.py         # Minimal ALU: AND / OR / ADD / SUB via a 2-bit op code
+├── main.py        # Command-line interface tying everything together
 └── README.md
 ```
 
@@ -33,6 +38,9 @@ python3 main.py
 You'll get a simple menu to:
 1. View the truth table for any gate
 2. Add two binary numbers together using the full adder logic
+3. Subtract two binary numbers using two's complement (handles negative results)
+4. Run a mini ALU operation (AND, OR, ADD, or SUB) selected by a 2-bit op code,
+   the same basic pattern real CPUs use to select which operation to execute
 
 ## Example
 
@@ -53,9 +61,15 @@ Enter second binary number (e.g. 011): 011
 - How complex circuits (adders) are built by composing simple gates
 - Why a full adder needs two half adders plus an OR gate for the carry
 - How binary addition with carry propagation actually works bit by bit
+- How subtraction can be implemented without a separate subtractor
+  circuit, using two's complement (invert + add 1) on top of the
+  adder that was already built
+- How an ALU selects between operations using an op code, and why
+  this same idea (a small set of primitive operations, selected by
+  a control signal) scales up to real processor design
 
 ## Possible next steps
 
-- Add a subtractor circuit
-- Extend to a simple 4-bit ALU
+- Extend the ALU to more bits and more operations (e.g. multiplication via
+  repeated addition, or a comparator)
 - Build a visual/Streamlit version (see my `digital-logic-calculator` repo)
